@@ -5,6 +5,7 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -22,7 +23,7 @@ jobs:
             autoconf libtool pkg-config zlib1g-dev \
             libncurses5-dev libncursesw5-dev libreadline-dev \
             libsqlite3-dev libgdbm-dev libssl-dev libffi-dev \
-            build-essential ccache \
+            build-essential ccache libstdc++6 aidl \
             libgl1-mesa-dev libgles2-mesa-dev libsdl2-dev libsdl2-image-dev \
             libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev \
             libswscale-dev libavformat-dev libavcodec-dev
@@ -33,7 +34,7 @@ jobs:
           pip install buildozer cython==0.29.36
 
       - name: Build APK
-        run: buildozer -v android debug
+        run: echo y | buildozer -v android debug
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4

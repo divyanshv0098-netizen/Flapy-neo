@@ -5,7 +5,6 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -18,7 +17,6 @@ jobs:
       - name: Install System Dependencies
         run: |
           sudo apt-get update
-          # 补充 OpenGL、音频及构建工具链依赖
           sudo apt-get install -y \
             git zip unzip openjdk-17-jdk python3-pip \
             autoconf libtool pkg-config zlib1g-dev \

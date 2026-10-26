@@ -1,59 +1,39 @@
-[app]
+name: Build Android APK
 
-# (str) Title of your application
-title = Flappy Neon
+on: [push, pull_request]
 
-# (str) Package name
-package.name = flappyneon
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-# (str) Package domain (needed for android packaging)
-package.domain = org.flappy
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-# (list) Source files to include
-source.dir = .
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-# (list) Source files to exclude
-source.exclude_exts = spec
+      - name: Cache Buildozer global directory
+        uses: actions/cache@v4
+        with:
+          path: ~/.buildozer
+          key: ${{ runner.os }}-buildozer-${{ hashFiles('buildozer.spec') }}
+          restore-keys: |
+            ${{ runner.os }}-buildozer-
 
-icon.filename = %(source.dir)s/icon.png
-# (list) List of inclusion/exclusion patterns
-source.include_exts = py,png,jpg,kv,atlas
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libreadline-dev libsqlite3-dev libgdbm-dev libssl-dev libffi-dev build-essential ccache
+          pip install --upgrade buildozer cython
 
-# (str) Application versioning
-version = 0.1
+      - name: Build APK
+        run: buildozer -v android debug
 
-# (list) Application requirements
-requirements = python3,kivy
-
-# (list) Permitted permissions
-android.permissions = INTERNET
-
-# (str) Supported orientations
-orientation = portrait
-
-#
-# Android specific
-#
-
-# (bool) Indicate if the application should be fullscreen or not
-fullscreen = 1
-
-# (int) The Android target API
-android.api = 31
-
-# (int) Minimum API your APK will support
-android.minapi = 21
-
-# (int) Android SDK version to use
-android.sdk = 31
-
-# (bool) Use AndroidX
-android.androidx = True
-
-[buildozer]
-
-# (int) Log level (0 = error only, 1 = info, 2 = debug)
-log_level = 2
-
-# (int) Display warning if buildozer is run as root
-warn_on_root = 1
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: package
+          path: bin/*.apk

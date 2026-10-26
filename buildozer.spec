@@ -32,7 +32,7 @@ orientation = portrait
 
 # (str) Application icon
 # 如果你暂时没有 512x512 的 PNG 图标，请在前面加上 # 注释掉此行
-# icon.filename = %(source.dir)s/icon.png
+icon.filename = %(source.dir)s/icon.png
 
 # (bool) Indicate if the application should be fullscreen or not
 fullscreen = 1

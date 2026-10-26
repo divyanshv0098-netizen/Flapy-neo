@@ -15,6 +15,8 @@ source.dir = .
 # (list) Source files to exclude
 source.exclude_exts = spec
 
+
+
 # (list) List of inclusion/exclusion patterns
 source.include_exts = py,png,jpg,kv,atlas
 icon.filename = %(source.dir)s/icon.png

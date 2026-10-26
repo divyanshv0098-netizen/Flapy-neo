@@ -15,12 +15,9 @@ source.dir = .
 # (list) Source files to exclude
 source.exclude_exts = spec
 
-
-
+icon.filename = %(source.dir)s/icon.png
 # (list) List of inclusion/exclusion patterns
 source.include_exts = py,png,jpg,kv,atlas
-icon.filename = %(source.dir)s/icon.png
-
 
 # (str) Application versioning
 version = 0.1

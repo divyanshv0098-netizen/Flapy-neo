@@ -18,7 +18,7 @@ class FlappyNeonWidget(Widget):
         self.bird_y = 300
         self.bird_vy = 0.0
         self.bird_radius = 16
-        
+        #c
         # --- FLEXIBLE LONG TAIL PROPERTIES ---
         self.tail_history = []
         self.max_tail_segments = 25  

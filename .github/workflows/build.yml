@@ -6,7 +6,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     
-    # THIS IS THE MAGIC FIX: It uses a pre-built environment with everything installed!
     container:
       image: kivy/buildozer:latest
 
@@ -14,11 +13,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install AIDL and Accept SDK Licenses
+        run: |
+          apt-get update
+          apt-get install -y aidl
+          # Force accept all Android SDK licenses
+          mkdir -p ${ANDROID_HOME}/licenses
+          yes | ${ANDROID_HOME}/tools/bin/sdkmanager --licenses || true
+
       - name: Build APK
         run: |
-          # Disable the warning about running as root inside Docker
           export BUILDOZER_WARN_ON_ROOT=0
-          buildozer -v android debug
+          echo y | buildozer -v android debug
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4

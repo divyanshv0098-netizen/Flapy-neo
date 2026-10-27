@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     
     container:
-      image: kivy/buildozer:latest
+      image: kivy/buildozer:latest-jammy
 
     steps:
       - name: Checkout repository
@@ -17,7 +17,6 @@ jobs:
         run: |
           apt-get update
           apt-get install -y aidl
-          # Force accept all Android SDK licenses
           mkdir -p ${ANDROID_HOME}/licenses
           yes | ${ANDROID_HOME}/tools/bin/sdkmanager --licenses || true
 
